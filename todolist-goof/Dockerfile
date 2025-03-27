@@ -15,8 +15,8 @@ FROM tomcat:8.5.99
 RUN mkdir /tmp/extracted_files
 COPY web.xml /usr/local/tomcat/conf/web.xml
 COPY --from=build /usr/src/goof/todolist-web-struts/target/todolist /usr/local/tomcat/webapps/todolist
-COPY --from=build /usr/local/openjdk-8/bin/native2ascii /docker-java-home/jre/bin/native2ascii
-COPY --from=build /usr/local/openjdk-8/lib/tools.jar /docker-java-home/jre/lib/tools.jar
+COPY --from=build /usr/local/openjdk-25/bin/native2ascii /docker-java-home/jre/bin/native2ascii
+COPY --from=build /usr/local/openjdk-25/lib/tools.jar /docker-java-home/jre/lib/tools.jar
 
 
 
