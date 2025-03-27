@@ -1,4 +1,4 @@
-FROM maven:3-jdk-8-slim as build
+FROM maven:3-jdk-25-slim as build
 
 RUN mkdir /usr/src/goof
 WORKDIR /usr/src/goof
