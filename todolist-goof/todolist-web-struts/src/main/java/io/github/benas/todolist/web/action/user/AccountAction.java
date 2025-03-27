@@ -33,6 +33,7 @@ import io.github.benas.todolist.web.common.form.ChangePasswordForm;
 import io.github.benas.todolist.web.common.form.RegistrationForm;
 import io.github.benas.todolist.web.common.util.TodoListUtils;
 import io.github.todolist.core.domain.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.ConstraintViolation;
 import java.text.MessageFormat;
@@ -45,6 +46,8 @@ import java.util.Set;
  */
 public class AccountAction extends BaseAction {
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     private static final Logger LOGGER = LogManager.getLogger(AccountAction.class.getName());
 
     private ChangePasswordForm changePasswordForm;
@@ -56,7 +59,7 @@ public class AccountAction extends BaseAction {
     private String updateProfileSuccessMessage, updatePasswordSuccessMessage;
 
     private String error, errorName, errorEmail, errorPassword, errorNewPassword,
-            errorCurrentPassword, errorConfirmationPassword, errorConfirmationPasswordMatching;
+        errorCurrentPassword, errorConfirmationPassword, errorConfirmationPasswordMatching;
 
     /**
      * **************
@@ -122,7 +125,11 @@ public class AccountAction extends BaseAction {
     }
 
     private boolean confirmationPasswordDoesNotMatchPassword() {
-        return !registrationForm.getConfirmationPassword().equals(registrationForm.getPassword());
+
+        return passwordEncoder.matches(
+            registrationForm.getConfirmationPassword(),
+            registrationForm.getPassword()
+        );
     }
 
     private void validateConfirmationPassword() {
